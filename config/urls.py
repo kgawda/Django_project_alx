@@ -18,10 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from devboard import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.ProjectListView.as_view(), name="lista-project"),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("", include("devboard.urls", namespace="devboard")),
+
 ]

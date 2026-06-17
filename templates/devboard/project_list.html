@@ -13,11 +13,12 @@
     <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
             <div class="card-body">
-                <h5 class="card-title">{{ p.name }}</h5>
-                <p class="card-text">{{ p.description }}</p>
-            </div>
-            <div class="card-footer bg-transparent">
-                <a href="{{ p.get_absolute_url }}" class="btn btn-primary btn-sm">Szczegóły</a>
+                <h5 class="card-title">
+                    <a href="{% url 'devboard:project-detail' p.pk %}">{{ p.name|upper }}</a>
+                </h5>
+                <p class="card-text">{{ p.description|truncatechars:25 }}</p>
+                <p class="card-text">{{ p.created_at|date:"d.m.Y" }}</p>
+                <p class="card-text">{{ p.task_count }} zadań</p>
             </div>
         </div>
     </div>
