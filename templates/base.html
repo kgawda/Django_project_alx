@@ -21,11 +21,16 @@
                                 <span class="nav-link">{{ user.username }}</span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+                                <form action="{% url 'logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="nav-link btn btn-link" type="submit">Wyloguj</button>
+                                </form>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">Zaloguj</a>
+                                <form action="{% url 'login' %}" method="get">
+                                    <button class="nav-link btn btn-link" type="submit">Zaloguj</button>
+                                </form>
                             </li>
                         {% endif %}
                     </ul>
