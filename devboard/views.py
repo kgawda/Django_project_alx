@@ -1,7 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.views.generic import ListView, DetailView
-from devboard.models import Project
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
+
+from devboard.forms import TaskForm
+from devboard.models import Project, Task
+
 
 # def index(request):
 #     return HttpResponse("<h1>DevBoard - etap 1: scaffold!</h1>")
@@ -37,3 +42,18 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
             .order_by("-priority", "due_date")
         )
         return ctx
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    template_name = "devboard/task_create.html"
+    form_class = TaskForm
+    success_url = reverse_lazy("devboard:lista-project")
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["project"].queryset = Project.objects.filter(owner=self.request.user)
+        return form
+
+    def form_valid(self, form):
+        messages.success(self.request, f"Zadanie '{form.instance.title}' zostało dodane.")
+        return super().form_valid(form)
