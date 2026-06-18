@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from devboard.models import Task
 # tu jest komentarz
+# tu drogi komentarz
 
 @pytest.mark.django_db(transaction=True)
 class TestTaskCreateView:
