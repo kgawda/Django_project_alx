@@ -9,7 +9,7 @@ from devboard.models import Project
 # def index(request):
 #     return render(request, "index.html")
 
-class ProjectListView(ListView, LoginRequiredMixin):
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "devboard/project_list.html"
     context_object_name = "projects"
@@ -21,7 +21,7 @@ class ProjectListView(ListView, LoginRequiredMixin):
             .order_by("-created_at")
         )
 
-class ProjectDetailView(DetailView, LoginRequiredMixin):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = "devboard/project_detail.html"
     context_object_name = "project"
