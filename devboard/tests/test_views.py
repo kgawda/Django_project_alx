@@ -3,7 +3,7 @@ from django.test import Client
 from django.urls import reverse
 
 from devboard.models import Task
-
+# tu jest komentarz
 
 @pytest.mark.django_db(transaction=True)
 class TestTaskCreateView:
