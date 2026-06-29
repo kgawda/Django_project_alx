@@ -49,6 +49,13 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
     success_url = reverse_lazy("devboard:lista-project")
 
+    def get_initial(self):
+        initial = super().get_initial()
+        project_id = self.request.GET.get("project")
+        if project_id:
+            initial["project"] = project_id
+        return initial
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields["project"].queryset = Project.objects.filter(owner=self.request.user)
