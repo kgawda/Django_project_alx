@@ -27,6 +27,14 @@ class Project(models.Model):
         return self.tasks.count()
 
 
+class TaskQuerySet(models.QuerySet):
+    def for_user(self, user):
+        return self.filter(assignee=user)
+    def active(self):
+        return self.exclude(status=self.model.Status.DONE)
+    def overdue(self):
+        ... # do zrobienia
+
 class Task(models.Model):
     """Zadanie przypisane do projektu."""
 
@@ -40,6 +48,7 @@ class Task(models.Model):
         MEDIUM = 2, "Średni"
         HIGH = 3, "Wysoki"
 
+    objects = TaskQuerySet.as_manager()
     title = models.CharField(max_length=300, verbose_name="Tytuł")
     description = models.TextField(blank=True, verbose_name="Opis")
     project = models.ForeignKey(
