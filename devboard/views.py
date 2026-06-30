@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from devboard.forms import ProjectForm, TaskForm
+from devboard.mixins import OwnerQuerysetMixin
 from devboard.models import Project, Task
 
 
@@ -14,25 +15,22 @@ from devboard.models import Project, Task
 # def index(request):
 #     return render(request, "index.html")
 
-class ProjectListView(LoginRequiredMixin, ListView):
+class ProjectListView(OwnerQuerysetMixin, ListView):
     model = Project
     template_name = "devboard/project_list.html"
     context_object_name = "projects"
 
     def get_queryset(self):
         return (
-            Project.objects.filter(owner=self.request.user)
+            super().get_queryset()
             .annotate(task_count=Count("tasks"))
             .order_by("-created_at")
         )
 
-class ProjectDetailView(LoginRequiredMixin, DetailView):
+class ProjectDetailView(OwnerQuerysetMixin, DetailView):
     model = Project
     template_name = "devboard/project_detail.html"
     context_object_name = "project"
-
-    def get_queryset(self):
-        return Project.objects.filter(owner=self.request.user)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
