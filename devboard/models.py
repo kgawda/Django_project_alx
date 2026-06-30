@@ -33,6 +33,8 @@ class TaskQuerySet(models.QuerySet):
     def active(self):
         return self.exclude(status=self.model.Status.DONE)
     def overdue(self):
+        # return self.active(). ...
+        # Pamiętajcie, można używać np.: __startswith __in  __lt __gt
         ... # do zrobienia
 
 class Task(models.Model):
