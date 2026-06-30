@@ -104,9 +104,12 @@
                                 </span>
                             {% endif %}
                         </td>
-                        <td>
+                        <td class="d-flex gap-2">
                             <a href="{% url 'devboard:task-update' task.pk %}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edytuj
+                            </a>
+                            <a href="{% url 'devboard:task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Usuń
                             </a>
                         </td>
                     </tr>
