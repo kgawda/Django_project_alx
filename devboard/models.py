@@ -33,9 +33,7 @@ class TaskQuerySet(models.QuerySet):
     def active(self):
         return self.exclude(status=self.model.Status.DONE)
     def overdue(self):
-        # return self.active(). ...
-        # Pamiętajcie, można używać np.: __startswith __in  __lt __gt
-        ... # do zrobienia
+        return self.active().exclude(due_date__isnull=True).filter(due_date__lt=timezone.now().date())
 
 class Task(models.Model):
     """Zadanie przypisane do projektu."""
@@ -90,11 +88,6 @@ class Task(models.Model):
     def __str__(self) -> str:
         return f"[{self.get_priority_display()}] {self.title}"
 
-    @property
-    def is_overdue(self) -> bool:
-        if self.due_date and self.status != self.Status.DONE:
-            return self.due_date < timezone.now().date()
-        return False
 
 
 class Comment(models.Model):
