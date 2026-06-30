@@ -58,7 +58,9 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = "devboard/task_create.html"
     form_class = TaskForm
-    success_url = reverse_lazy("devboard:lista-project")
+
+    def get_success_url(self):
+        return reverse_lazy("devboard:project-detail", args=[self.object.project.id])
 
     def get_initial(self):
         initial = super().get_initial()
