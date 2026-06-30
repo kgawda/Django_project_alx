@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from devboard.templatetags.devboard_extras import status_badge
+from devboard.badges import render_status_badge
 
 from .models import Project, Task, Comment
 
@@ -50,7 +50,7 @@ class TaskAdmin(admin.ModelAdmin):
 
     @admin.display(description="Status")
     def status_badge_admin(self, obj):
-        return status_badge(obj)
+        return render_status_badge(obj)
 
 admin.site.site_header = "DevBoard — Panel Administracyjny"
 admin.site.site_title = "DevBoard Admin"
