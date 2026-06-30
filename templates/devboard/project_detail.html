@@ -66,6 +66,7 @@
                         <th>Przypisano do</th>
                         <th>Priorytet</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,7 +104,11 @@
                                 </span>
                             {% endif %}
                         </td>
-
+                        <td>
+                            <a href="{% url 'devboard:task-update' task.pk %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Edytuj
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
