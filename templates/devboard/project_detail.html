@@ -2,6 +2,7 @@
 {% block title %}{{ project.name }} — DevBoard{% endblock %}
 
 {% block content %}
+{% load devboard_extras %}
 
 <div class="mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -90,19 +91,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if task.get_status_display == 'Ukończone' %}
-                                <span class="badge bg-success">
-                                    <i class="bi bi-check-circle"></i> {{ task.get_status_display }}
-                                </span>
-                            {% elif task.get_status_display == 'W trakcie' %}
-                                <span class="badge bg-info">
-                                    <i class="bi bi-hourglass-split"></i> {{ task.get_status_display }}
-                                </span>
-                            {% else %}
-                                <span class="badge bg-light text-dark">
-                                    <i class="bi bi-circle"></i> {{ task.get_status_display }}
-                                </span>
-                            {% endif %}
+                            {{ task|status_badge }}
                         </td>
                         <td class="d-flex gap-2">
                             <a href="{% url 'devboard:task-update' task.pk %}" class="btn btn-sm btn-outline-secondary">
