@@ -14,5 +14,4 @@ class DevboardConfig(AppConfig):
         # post_save.connect(save_done_info, sender=Task, dispatch_uid="save_done_info_on_task")
 
         # Sygnał, opcja 2 - @receiver w signals.py:
-        from devboard import signals  # noqa: F401
-        
+        from devboard import signals  # noqa: F401        

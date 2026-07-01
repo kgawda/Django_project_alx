@@ -13,8 +13,8 @@ def save_done_info2(sender, instance, **kwargs):
 @receiver(pre_save, sender=Task, dispatch_uid="task_status_change_check")
 def check_old_status(sender, instance, **kwargs):
     if instance.pk:
-        status = sender.objects.filter(pk=instance.pk).first().status
-        instance._old_status = status
+        status = sender.objects.filter(pk=instance.pk).first().status  # to można jeszcze zoptymalizować
+        instance._old_status = status  # uwaga, trick!
 
 @receiver(post_save, sender=Task, dispatch_uid="task_status_change_log")
 def log_status_change(sender, instance, created, **kwargs):
