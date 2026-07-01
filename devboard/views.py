@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Q, Count
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import DeleteView, ListView, DetailView, CreateView, UpdateView, View
+from django.shortcuts import get_object_or_404, redirect
+from django.core.exceptions import BadRequest
 
 from devboard.forms import ProjectForm, TaskForm
 from devboard.mixins import OwnerQuerysetMixin
@@ -94,3 +96,21 @@ class TaskDeleteView(OwnerQuerysetMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("devboard:project-detail", args=[self.object.project.id])
+
+
+class TaskStatusUpdateView(View):
+    http_method_names = ["post"]
+    
+    def post(self, request, *args, **kwargs):
+        q_owner = Q(project__owner=self.request.user)
+        q_assignee = Q(assignee=self.request.user)
+        qs = Task.objects.filter(q_owner | q_assignee).filter(pk=self.kwargs["pk"])
+        task = get_object_or_404(qs)
+        new_status = request.POST.get("status")
+        if not new_status or new_status not in Task.Status.values:
+            raise BadRequest("Missing or incorrect new status")
+            # return HttpResponseBadRequest("Missing or incorrect new status")
+        task.status = new_status
+        task.save()
+        messages.success(request, "Status zaktualizowany")
+        return redirect("devboard:project-detail", pk=task.project.pk)
