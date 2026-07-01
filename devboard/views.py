@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, ListView, DetailView, CreateView, UpdateView, View
 from django.shortcuts import get_object_or_404, redirect
 from django.core.exceptions import BadRequest
@@ -60,7 +60,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
 
     def get_success_url(self):
-        return reverse_lazy("devboard:project-detail", args=[self.object.project.id])
+        return reverse("devboard:project-detail", args=[self.object.project.id])
 
     def get_initial(self):
         initial = super().get_initial()
@@ -86,7 +86,7 @@ class TaskUpdateView(OwnerQuerysetMixin, UpdateView):
     owner_field = "project__owner"
 
     def get_success_url(self):
-        return reverse_lazy("devboard:project-detail", args=[self.object.project.id])
+        return reverse("devboard:project-detail", args=[self.object.project.id])
 
 
 class TaskDeleteView(OwnerQuerysetMixin, DeleteView):
@@ -95,7 +95,7 @@ class TaskDeleteView(OwnerQuerysetMixin, DeleteView):
     owner_field = "project__owner"
 
     def get_success_url(self):
-        return reverse_lazy("devboard:project-detail", args=[self.object.project.id])
+        return reverse("devboard:project-detail", args=[self.object.project.id])
 
 
 class TaskStatusUpdateView(View):
