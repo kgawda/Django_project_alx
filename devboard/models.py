@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -25,6 +26,9 @@ class Project(models.Model):
 
     def task_count(self) -> int:
         return self.tasks.count()
+    
+    def get_absolute_url(self) -> str:
+        return reverse("devboard:project-detail", args=[self.pk])
 
 
 class TaskQuerySet(models.QuerySet):

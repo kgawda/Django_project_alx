@@ -60,7 +60,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
 
     def get_success_url(self):
-        return reverse("devboard:project-detail", args=[self.object.project.id])
+        return self.object.project.get_absolute_url()
 
     def get_initial(self):
         initial = super().get_initial()
@@ -86,7 +86,7 @@ class TaskUpdateView(OwnerQuerysetMixin, UpdateView):
     owner_field = "project__owner"
 
     def get_success_url(self):
-        return reverse("devboard:project-detail", args=[self.object.project.id])
+        return  self.object.project.get_absolute_url()
 
 
 class TaskDeleteView(OwnerQuerysetMixin, DeleteView):
@@ -95,7 +95,7 @@ class TaskDeleteView(OwnerQuerysetMixin, DeleteView):
     owner_field = "project__owner"
 
     def get_success_url(self):
-        return reverse("devboard:project-detail", args=[self.object.project.id])
+        return self.object.project.get_absolute_url()
 
 
 class TaskStatusUpdateView(View):
@@ -113,4 +113,4 @@ class TaskStatusUpdateView(View):
         task.status = new_status
         task.save()
         messages.success(request, "Status zaktualizowany")
-        return redirect("devboard:project-detail", pk=task.project.pk)
+        return redirect(task.project)
