@@ -1,0 +1,9 @@
+{% if task.status != "DONE" %}
+    <form method="post" action="{% url 'devboard:task-status' task.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="DONE">
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-lg"></i> Zaznacz jako wykonany
+        </button>
+    </form>
+{% endif %}

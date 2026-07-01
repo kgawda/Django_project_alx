@@ -8,3 +8,5 @@ register = template.Library()
 @register.filter
 def status_badge(task):
     return render_status_badge(task)
+
+# Zeby użyć w szablonie potrzebne: {% load devboard_extras %}

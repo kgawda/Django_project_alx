@@ -114,3 +114,9 @@ class TaskStatusUpdateView(View):
         task.save()
         messages.success(request, "Status zaktualizowany")
         return redirect(task.project)
+    
+    
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = "devboard/task_detail.html"
+    context_object_name = "task"

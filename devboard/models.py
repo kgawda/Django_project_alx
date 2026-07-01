@@ -92,6 +92,8 @@ class Task(models.Model):
     def __str__(self) -> str:
         return f"[{self.get_priority_display()}] {self.title}"
 
+    def get_absolute_url(self):
+        return reverse("devboard:task-detail", args=[self.pk])
 
 
 class Comment(models.Model):

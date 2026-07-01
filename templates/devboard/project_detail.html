@@ -73,7 +73,9 @@
                 <tbody>
                     {% for task in tasks %}
                     <tr>
-                        <td class="fw-500">{{ task.title }}</td>
+                        <td class="fw-500">
+                            <a href="{{task.get_absolute_url}}">{{ task.title }}</a>
+                        </td>
                         <td>
                             {% if task.assignee %}
                                 <span class="badge bg-info">{{ task.assignee.username }}</span>
@@ -100,15 +102,7 @@
                             <a href="{% url 'devboard:task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> Usuń
                             </a>
-                            {% if task.status != "DONE" %}
-                            <form method="post" action="{% url 'devboard:task-status' task.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="status" value="DONE">
-                                <button type="submit" class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-check-lg"></i> Zaznacz jako wykonany
-                                </button>
-                            </form>
-                            {% endif %}
+                            {% include "devboard/_status_buttons.html" %}
                         </td>
                     </tr>
                     {% endfor %}
